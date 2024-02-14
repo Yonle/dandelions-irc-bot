@@ -70,10 +70,17 @@ function identifyPos(id, i, n) {
   else return " ";
 }
 
+function makeNumberLine(r) {
+  let str = "   ";
+  for (let i = 1; i <= r; i++) str += i + "   ";
+
+  return str;
+}
+
 function draw(id) {
   if (!sess.has(id)) return "";
   const s = sess.get(id);
-  let str = "   " + Object.keys(s.map).map((n, i) => i+1).join("   ");
+  let str = makeNumberLine(s.rows);
   let row = 0
   for (const i of Object.keys(s.map)) {
     const l = `${i}| ${s.map[i].map((_, n) => identifyPos(id, i, n)).join(" | ")} |`;

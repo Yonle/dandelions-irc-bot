@@ -14,5 +14,9 @@ module.exports = {
     "#channel1",
     "#channel2",
     "#channel3"
-  ]
+  ],
+
+  // map option
+  maxCol: 5,
+  maxRows: 5
 }

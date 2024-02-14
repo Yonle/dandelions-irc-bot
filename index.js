@@ -2,7 +2,7 @@ const config = require("./config");
 const sess = new Map();
 const usersess = new Map(); // user match session.
 
-function generateSess(dandelion, wind, maxCol = 5, maxRow = 5) {
+function generateSess(dandelion, wind) {
   let newSess = {
     turn: "d",
     map: {},
@@ -14,10 +14,10 @@ function generateSess(dandelion, wind, maxCol = 5, maxRow = 5) {
 
   let sessID = Date.now() + Math.random().toString(36);
 
-  for (let col = 0; col < maxCol; col++) {
+  for (let col = 0; col < (config.maxCol || 5); col++) {
     const a = String.fromCharCode(65 + col);
     newSess.map[a] = [];
-    for (let row = 1; row <= maxRow; row++) {
+    for (let row = 1; row <= (config.maxRows || 5); row++) {
       newSess.map[a].push(" ");
     }
   }
@@ -100,11 +100,11 @@ function num(n) {
 function putDandelion(id, p) {
   const s = sess.get(id);
   if (s.turn !== "d") return "";
-  if (p.length > 2 || p.length < 2) return "";
+  if (p.length < 2) return "";
   p = p.toUpperCase();
 
   let pos = p.split("");
-  if (pos[1] > 5 || pos[1] < 1) return "";
+  if (pos[1] < 1) return "";
   if (!s.map[pos[0]] || !s.map[pos[0]][pos[1]-1]) return "";
   if (s.dandelions.has(p)) return "";
 

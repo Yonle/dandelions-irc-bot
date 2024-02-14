@@ -256,8 +256,8 @@ irc.on("connect", _ => {
   console.log("--- Connected.");
   irc.setEncoding("utf8");
   irc.write([
-    "NICK ${config.nick}",
-    "USER ${config.user} * * :${config.name}",
+    `NICK ${config.nick}`,
+    `USER ${config.user} * * :${config.name}`,
   ].join("\r\n") + "\r\n");
 });
 

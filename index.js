@@ -2,22 +2,24 @@ const config = require("./config");
 const sess = new Map();
 const usersess = new Map(); // user match session.
 
-function generateSess(dandelion, wind) {
+function generateSess(dandelion, wind, col, rows) {
   let newSess = {
     turn: "d",
     map: {},
     dandelions: new Set(),
     seeds: new Set(),
     directions: new Set(),
-    dandelion, wind
+    dandelion, wind,
+    col: col || config.maxCol || 5,
+    rows: rows || config.maxRows || 5
   };
 
   let sessID = Date.now() + Math.random().toString(36);
 
-  for (let col = 0; col < (config.maxCol || 5); col++) {
+  for (let col = 0; col < newSess.col; col++) {
     const a = String.fromCharCode(65 + col);
     newSess.map[a] = [];
-    for (let row = 1; row <= (config.maxRows || 5); row++) {
+    for (let row = 1; row <= newSess.rows; row++) {
       newSess.map[a].push(" ");
     }
   }
@@ -112,11 +114,11 @@ function putDandelion(id, p) {
   s.seeds.delete(p);
   s.turn = "w";
 
-  if ((s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
+  if ((s.dandelions.size + s.seeds.size) >= (s.col * s.rows)) {
     usersess.delete(s.dandelion);
     usersess.delete(s.wind);
     sess.delete(id);
-    return `${s.dandelion} win.`;
+    return `Dandelion (${s.dandelion}) win.`;
   }
 
   return `${s.wind}: Wind, It's your turn.`;
@@ -231,15 +233,15 @@ function wind(id, dir) {
     s.turn = "d";
     s.directions.add(dir);
 
-    if ((s.directions.size >= 7) || (s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
+    if ((s.directions.size >= 7) || (s.dandelions.size + s.seeds.size) >= (s.col * s.rows)) {
       usersess.delete(s.dandelion);
       usersess.delete(s.wind);
-      if ((s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
+      if ((s.dandelions.size + s.seeds.size) >= (s.col * s.rows)) {
         sess.delete(id);
-        return `${s.dandelion} win.`;
+        return `Dandelion (${s.dandelion}) win.`;
       } else {
         sess.delete(id);
-        return `${s.wind} win.`;
+        return `Wind (${s.wind}) win.`;
       }
     }
     return `${s.dandelion}: Dandelion, It's your turn.`;
@@ -281,15 +283,22 @@ irc.on("data", data => {
       case "!dandelion": {
         let dandelion = nick;
         let wind = argv[1];
+        let col = argv[2];
+        let rows = argv[3];
 
         if (!wind)
-          return irc.msg(chan, "Usage: !dandelion [windplayer-nick]");
+          return irc.msg(chan, "Usage: !dandelion [windplayer-nick] (col) (rows)");
         if (sessID)
           return irc.msg(chan, "You are in a match. To stop, Send !destroy");
         if (usersess.has(wind))
           return irc.msg(chan, "That user is in a match.");
 
-        let id = generateSess(dandelion, wind);
+        if (
+          (col < 2) || (rows < 2) ||
+          (col > 8) || (rows > 8)
+        ) return irc.msg(chan, "Column / Rows could not less than 2 or more than 8.");
+
+        let id = generateSess(dandelion, wind, col, rows);
         usersess.set(dandelion, id);
         usersess.set(wind, id);
         irc.msg(chan, "[Tip: To stop current match, Type !destroy]");
@@ -302,15 +311,22 @@ irc.on("data", data => {
       case "!wind": {
         let dandelion = argv[1];
         let wind = nick;
+        let col = argv[2];
+        let rows = argv[3];
 
         if (!dandelion)
-          return irc.msg(chan, "Usage: !wind [dandelionplayer-nick]");
+          return irc.msg(chan, "Usage: !wind [dandelionplayer-nick] (col) (rows)");
         if (sessID)
           return irc.msg(chan, "You are in a match. To stop, Send !destroy");
         if (usersess.has(dandelion))
           return irc.msg(chan, "That user is in a match.");
 
-        let id = generateSess(dandelion, wind);
+        if (
+          (col < 2) || (rows < 2) ||
+          (col > 8) || (rows > 8)
+        ) return irc.msg(chan, "Column / Rows could not less than 2 or more than 8.");
+
+        let id = generateSess(dandelion, wind, col, rows);
         usersess.set(dandelion, id);
         usersess.set(wind, id);
         irc.msg(chan, "[Tip: To stop current match, Type !destroy]");

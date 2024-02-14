@@ -53,7 +53,7 @@ ${s.directions.has("W") ? " " : "W"} -------+------- ${s.directions.has("E") ? "
 
   return str.split("\n")
     .map((str, i) => {
-      return str + "     " + compass[i];
+      return str + "     " + (compass[i] || "");
     }).join("\n");
 }
 

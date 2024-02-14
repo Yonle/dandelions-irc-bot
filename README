@@ -58,6 +58,6 @@ Once that all being set, Run the following command to start the bot:
 Playing the game
 ================
 The bot has 3 commands being implemented:
-  * !dandelion [nick]   - Play as dandelion with target player as wind
-  * !wind [nick]        - Play as wind with target player as dandelion
-  * !destroy            - Destroy the current match
+  * !dandelion [nick] (col) (rows)   - Play as dandelion with target player as wind
+  * !wind [nick] (col) (rows)        - Play as wind with target player as dandelion
+  * !destroy                         - Destroy the current match

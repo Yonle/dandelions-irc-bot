@@ -1,0 +1,63 @@
+dandelionbot
+============
+An IRC bot that plays 2 player game called dandelion
+Based on https://mathwithbaddrawings.com/dandelions
+
+  <dandelionbot> Yonle: Dandelion, It's your turn.
+  <dandelionbot>    1   2   3   4   5         Wind Directions
+  <dandelionbot> ----------------------              N
+  <dandelionbot> A|   |   |   |   |   |              |
+  <dandelionbot> ----------------------       NW     |     NE
+  <dandelionbot> B|   |   |   |   |   |              |
+  <dandelionbot> ----------------------              |
+  <dandelionbot> C|   |   |   |   |   |     W -------+------- E
+  <dandelionbot> ----------------------              |
+  <dandelionbot> D|   |   |   |   |   |              |
+  <dandelionbot> ----------------------       SW     |     SE
+  <dandelionbot> E|   |   |   |   |   |              |
+  <dandelionbot> ----------------------              S
+  <~Yonle> C1
+  <dandelionbot> Yonle: Wind, It's your turn.
+  <dandelionbot>    1   2   3   4   5         Wind Directions
+  <dandelionbot> ----------------------              N
+  <dandelionbot> A|   |   |   |   |   |              |
+  <dandelionbot> ----------------------       NW     |     NE
+  <dandelionbot> B|   |   |   |   |   |              |
+  <dandelionbot> ----------------------              |
+  <dandelionbot> C| * |   |   |   |   |     W -------+------- E
+  <dandelionbot> ----------------------              |
+  <dandelionbot> D|   |   |   |   |   |              |
+  <dandelionbot> ----------------------       SW     |     SE
+  <dandelionbot> E|   |   |   |   |   |              |
+  <dandelionbot> ----------------------              S
+  <~Yonle> NE
+  <dandelionbot> Yonle: Dandelion, It's your turn.
+  <dandelionbot>    1   2   3   4   5         Wind Directions
+  <dandelionbot> ----------------------              N
+  <dandelionbot> A|   |   | , |   |   |              |
+  <dandelionbot> ----------------------       NW     |
+  <dandelionbot> B|   | , |   |   |   |              |
+  <dandelionbot> ----------------------              |
+  <dandelionbot> C| * |   |   |   |   |     W -------+------- E
+  <dandelionbot> ----------------------              |
+  <dandelionbot> D|   |   |   |   |   |              |
+  <dandelionbot> ----------------------       SW     |     SE
+  <dandelionbot> E|   |   |   |   |   |              |
+  <dandelionbot> ----------------------              S
+
+Running
+=======
+You will need a NodeJS v16+ installed in your operating system.
+
+Before running, Please edit the config.js file accordingly.
+
+Once that all being set, Run the following command to start the bot:
+  $ node index.js
+
+
+Playing the game
+================
+The bot has 3 commands being implemented:
+  * !dandelion [nick]   - Play as dandelion with target player as wind
+  * !wind [nick]        - Play as wind with target player as dandelion
+  * !destroy            - Destroy the current match

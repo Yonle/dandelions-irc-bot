@@ -71,8 +71,8 @@ function identifyPos(id, i, n) {
 }
 
 function makeNumberLine(r) {
-  let str = "   ";
-  for (let i = 1; i <= r; i++) str += i + "   ";
+  let str = "";
+  for (let i = 1; i <= r; i++) str += "   " + i;
 
   return str;
 }

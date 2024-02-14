@@ -112,7 +112,7 @@ function putDandelion(id, p) {
   s.seeds.delete(p);
   s.turn = "w";
 
-  if ((s.dandelions.size + s.seeds.size) >= 25) {
+  if ((s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
     usersess.delete(s.dandelion);
     usersess.delete(s.wind);
     sess.delete(id);
@@ -231,10 +231,10 @@ function wind(id, dir) {
     s.turn = "d";
     s.directions.add(dir);
 
-    if ((s.directions.size >= 7) || (s.dandelions.size + s.seeds.size) >= 25) {
+    if ((s.directions.size >= 7) || (s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
       usersess.delete(s.dandelion);
       usersess.delete(s.wind);
-      if ((s.dandelions.size + s.seeds.size) >= 25) {
+      if ((s.dandelions.size + s.seeds.size) >= ((config.maxCol * config.maxRows) || 25)) {
         sess.delete(id);
         return `${s.dandelion} win.`;
       } else {
